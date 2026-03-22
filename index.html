@@ -1,107 +1,276 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JOGA BONITO RECORDS</title>
-<meta name="description" content="Joga Bonito Records — Underground Techno Label">
+<meta name="description" content="Joga Bonito Records">
+<meta name="keywords" content="Joga Bonito, techno, underground, electronic music, label, Frequency Control, Redliner">
+<meta name="author" content="Joga Bonito Records">
+<meta property="og:title" content="Joga Bonito Records">
+<meta property="og:description" content="Joga Bonito Records">
+<meta property="og:image" content="https://jogabonitorecords.com/img/og-image.jpg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jogabonitorecords.com">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Joga Bonito Records">
+<meta name="twitter:description" content="Joga Bonito Records">
+<meta name="twitter:image" content="https://jogabonitorecords.com/img/og-image.jpg">
+<link rel="icon" href="img/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   :root, [data-theme="light"] {
-    --bg: #666; --text: #000; --text-dim: #1a1a1a; --text-bright: #000; --accent: #000;
-    --border: rgba(0,0,0,0.25); --hero-text: #000; --hero-sub: #111; --hero-dim: #1a1a1a;
-    --hero-cursor: #000; --bar-color: #222; --bar-hover: #000;
-    --panel-bg: rgba(60,60,60,0.97); --panel-text: #eee; --panel-hover: #fff;
+    --bg: #e8e4e0; --text: #2a2a2a; --text-dim: #6b6560; --text-bright: #111; --accent: #111;
+    --border: rgba(0,0,0,0.12);
+    --hero-text: #111; --hero-sub: #4a4540; --hero-dim: #6b6560; --hero-cursor: #111;
+    --nav-bg: rgba(232,228,224,0.88); --nav-border: rgba(0,0,0,0.08);
+    --toggle-bg: rgba(0,0,0,0.12); --toggle-knob: #2a2a2a;
   }
   [data-theme="dark"] {
-    --bg: #111; --text: #bbb; --text-dim: #666; --text-bright: #eee; --accent: #fff;
-    --border: rgba(255,255,255,0.1); --hero-text: #ddd; --hero-sub: #888; --hero-dim: #666;
-    --hero-cursor: #ddd; --bar-color: #666; --bar-hover: #eee;
-    --panel-bg: rgba(20,20,20,0.95); --panel-text: #aaa; --panel-hover: #fff;
+    --bg: #111; --text: #fff; --text-dim: #ccc; --text-bright: #fff; --accent: #fff;
+    --border: rgba(255,255,255,0.15);
+    --hero-text: #fff; --hero-sub: #ddd; --hero-dim: #ccc; --hero-cursor: #fff;
+    --nav-bg: rgba(17,17,17,0.85); --nav-border: rgba(255,255,255,0.08);
+    --toggle-bg: rgba(255,255,255,0.15); --toggle-knob: #fff;
   }
-  html { scroll-behavior: smooth; }
-  body { background: var(--bg); color: var(--text); font-family: 'JetBrains Mono', monospace; transition: background 0.5s ease, color 0.5s ease; }
-  .site-bg { position: fixed; inset: 0; z-index: 0; background: url('img/concrete-light.jpg') center/cover no-repeat; pointer-events: none; }
-  .hero { position: relative; height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; padding: 48px; padding-bottom: 28vh; }
-  .hero-content { position: relative; z-index: 1; max-width: 720px; }
-  .hero-line { font-size: 16px; font-weight: 600; letter-spacing: 0.5px; line-height: 1.9; white-space: nowrap; overflow: hidden; opacity: 0; color: var(--hero-text); transition: color 0.5s ease; }
+  html { scroll-behavior: smooth; scroll-padding-top: 60px; }
+  [data-theme="light"] .nav-logo { filter: invert(1); }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Syne', sans-serif;
+    transition: background-color 0.5s ease, color 0.5s ease;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+
+  /* ── BACKGROUND VIDEO ── */
+  .bg-video-wrap {
+    position: fixed; inset: 0; z-index: -1; overflow: hidden;
+  }
+  .bg-video-wrap video {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .bg-video-overlay {
+    position: absolute; inset: 0;
+    background: var(--bg); opacity: 0.82;
+    transition: background 0.5s ease, opacity 0.5s ease;
+  }
+  [data-theme="dark"] .bg-video-overlay { opacity: 0.88; }
+
+  /* ── NAVBAR ── */
+  .navbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 56px;
+    background: var(--nav-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--nav-border);
+    transition: background 0.5s ease, border-color 0.5s ease;
+  }
+  .nav-brand { display: flex; align-items: center; text-decoration: none; }
+  .nav-logo { height: 112px; width: auto; display: block; transition: filter 0.5s ease; }
+  .nav-links { display: flex; align-items: center; gap: 32px; }
+  .nav-links a {
+    font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--text-dim); text-decoration: none; transition: color 0.2s ease;
+    position: relative; padding-bottom: 2px;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px;
+    background: var(--accent); transition: width 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--text-bright); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-links a.active { color: var(--text-bright); }
+  .nav-links a.active::after { width: 100%; }
+  .nav-divider { width: 1px; height: 20px; background: var(--border); transition: background 0.5s ease; }
+
+  /* ── THEME TOGGLE ── */
+  .theme-toggle {
+    display: flex; align-items: center; cursor: pointer;
+    background: none; border: none; padding: 0;
+  }
+  .theme-toggle-track {
+    position: relative; width: 40px; height: 22px; border-radius: 11px;
+    background: var(--toggle-bg); transition: background 0.3s ease;
+  }
+  .theme-toggle-knob {
+    position: absolute; top: 3px; left: 3px; width: 16px; height: 16px;
+    border-radius: 50%; background: var(--toggle-knob);
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+  [data-theme="dark"] .theme-toggle-knob { transform: translateX(18px); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative; z-index: 2; height: 100vh; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 48px; padding-bottom: 28vh;
+  }
+  .hero-content { position: relative; z-index: 3; max-width: 720px; }
+  .hero-line {
+    font-size: 16px; font-weight: 600; letter-spacing: 0.5px; line-height: 1.9;
+    white-space: nowrap; overflow: hidden; opacity: 0;
+    color: var(--hero-text); transition: color 0.5s ease;
+  }
   .hero-line.visible { opacity: 1; }
   .hero-line.title { font-size: 28px; font-weight: 700; letter-spacing: 8px; margin-bottom: 6px; }
   .hero-line.subtitle { font-size: 13px; font-weight: 500; letter-spacing: 6px; color: var(--hero-sub); margin-bottom: 40px; text-transform: uppercase; transition: color 0.5s ease; }
   .hero-line.spacer { height: 28px; }
   .hero-line.dim { color: var(--hero-dim); font-size: 12px; font-weight: 500; transition: color 0.5s ease; }
-  .hero .cursor { display: inline-block; width: 8px; height: 15px; background: var(--hero-cursor); margin-left: 2px; vertical-align: middle; animation: blink 1s step-end infinite; transition: background 0.5s ease; }
+  .hero .cursor {
+    display: inline-block; width: 8px; height: 15px; background: var(--hero-cursor);
+    margin-left: 2px; vertical-align: middle; animation: blink 1s step-end infinite;
+    transition: background 0.5s ease;
+  }
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-  .scroll-hint { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); z-index: 1; opacity: 0; transition: opacity 0.8s ease; animation: scrollBounce 2s ease infinite; }
+  .scroll-hint {
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    z-index: 3; opacity: 0; transition: opacity 0.8s ease;
+    animation: scrollBounce 2s ease infinite;
+  }
   .scroll-hint.visible { opacity: 0.4; }
   .scroll-hint span { display: block; width: 1px; height: 40px; background: var(--text-dim); transition: background 0.5s ease; }
   @keyframes scrollBounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
-  .menu-btn { position: fixed; top: 32px; right: 32px; z-index: 100; background: none; border: none; width: 32px; height: 24px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; padding: 0; opacity: 0; transition: opacity 0.3s ease; }
-  .menu-btn.visible { opacity: 1; }
-  .menu-btn .bar { display: block; width: 100%; height: 2px; background: var(--bar-color); transition: all 0.3s ease; }
-  .menu-btn:hover .bar { background: var(--bar-hover); }
-  .menu-btn.open .bar:nth-child(1) { transform: translateY(11px) rotate(45deg); }
-  .menu-btn.open .bar:nth-child(2) { opacity: 0; }
-  .menu-btn.open .bar:nth-child(3) { transform: translateY(-11px) rotate(-45deg); }
-  .menu-panel { position: fixed; top: 80px; right: 32px; z-index: 100; display: flex; flex-direction: column; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: all 0.3s ease; background: var(--panel-bg); padding: 8px 0; border: 1px solid var(--border); }
-  .menu-panel.open { opacity: 1; visibility: visible; transform: translateY(0); }
-  .menu-panel a, .menu-panel button { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--panel-text); text-decoration: none; padding: 12px 24px; transition: color 0.2s ease; background: none; border: none; cursor: pointer; text-align: left; }
-  .menu-panel a:hover, .menu-panel button:hover { color: var(--panel-hover); }
-  .menu-divider { height: 1px; background: var(--border); margin: 4px 24px; }
-  .content-section { min-height: 100vh; padding: 80px 60px; position: relative; z-index: 1; border-top: 1px solid var(--border); transition: border-color 0.5s ease; }
-  .section-header { font-size: 14px; font-weight: 500; letter-spacing: 4px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 50px; padding-bottom: 14px; border-bottom: 1px solid var(--border); transition: color 0.5s ease, border-color 0.5s ease; }
+
+  /* ── SECTIONS ── */
+  .content-section {
+    padding: 100px 60px 80px; position: relative; z-index: 2;
+    border-top: 1px solid var(--border); transition: border-color 0.5s ease;
+  }
+  .section-header {
+    font-size: 11px; font-weight: 600; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--text-dim); margin-bottom: 60px; padding-bottom: 16px;
+    border-bottom: 1px solid var(--border); transition: color 0.5s ease, border-color 0.5s ease;
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .section-count {
+    font-size: 10px; font-weight: 400; letter-spacing: 2px; color: var(--text-dim); opacity: 0.6;
+  }
+
+  /* ── FADE-IN ON SCROLL ── */
+  .fade-in {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RELEASES ── */
   .releases-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 40px; }
-  .release-card { text-decoration: none; color: inherit; transition: transform 0.2s ease; display: block; }
+  .release-card { text-decoration: none; color: inherit; transition: transform 0.2s ease; display: block; cursor: pointer; }
   .release-card:hover { transform: translateY(-4px); }
   .release-card img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; margin-bottom: 14px; }
-  .release-cat { font-size: 12px; letter-spacing: 2px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 4px; transition: color 0.5s ease; }
-  .release-title { font-size: 20px; font-weight: 500; color: var(--text-bright); line-height: 1.5; transition: color 0.5s ease; }
+  .release-cat { font-size: 11px; letter-spacing: 3px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 6px; transition: color 0.5s ease; }
+  .release-title { font-size: 18px; font-weight: 600; color: var(--text-bright); line-height: 1.5; transition: color 0.5s ease; }
   .release-title span { color: var(--text-dim); }
+
+  /* ── SHOP ── */
   .shop-filter { display: flex; gap: 24px; margin-bottom: 40px; }
-  .shop-filter a { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); text-decoration: none; padding-bottom: 4px; cursor: pointer; transition: color 0.2s ease; }
+  .shop-filter a { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-dim); text-decoration: none; padding-bottom: 4px; cursor: pointer; transition: color 0.2s ease; }
   .shop-filter a:hover, .shop-filter a.active { color: var(--accent); border-bottom: 1px solid var(--accent); }
   .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 36px; }
-  .shop-card { text-decoration: none; color: inherit; transition: transform 0.2s ease; display: block; }
+  .shop-card { text-decoration: none; color: inherit; transition: transform 0.2s ease; display: block; cursor: pointer; }
   .shop-card:hover { transform: translateY(-4px); }
-  .shop-card img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; margin-bottom: 12px; }
-  .shop-card-title { font-size: 18px; font-weight: 500; color: var(--text-bright); margin-bottom: 2px; transition: color 0.5s ease; }
-  .shop-card-type { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); transition: color 0.5s ease; }
+  .shop-card img { width: 100%; object-fit: contain; display: block; margin-bottom: 12px; background: rgba(240,240,240,0.6); padding: 20px; }
+  [data-theme="dark"] .shop-card img { background: rgba(30,30,30,0.6); }
+  .shop-card-title { font-size: 16px; font-weight: 600; color: var(--text-bright); margin-bottom: 2px; transition: color 0.5s ease; }
+  .shop-card-type { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-dim); transition: color 0.5s ease; }
+
+  /* ── COMING SOON ── */
+  .coming-soon-tag {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-size: 11px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--text-bright); background: rgba(0,0,0,0.6); padding: 8px 18px;
+  }
+  [data-theme="dark"] .coming-soon-tag { background: rgba(255,255,255,0.15); }
+
+  .notify-form { margin-top: 60px; max-width: 480px; }
+  .notify-text { font-size: 14px; color: var(--text-dim); margin-bottom: 16px; transition: color 0.5s ease; }
+  .notify-sizes { display: flex; gap: 8px; margin-bottom: 16px; }
+  .size-btn {
+    font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 1px;
+    padding: 8px 14px; background: none; border: 1px solid var(--border);
+    color: var(--text-dim); cursor: pointer; transition: all 0.2s ease;
+  }
+  .size-btn:hover, .size-btn.selected { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .notify-email-row { display: flex; gap: 10px; }
+  .notify-input {
+    flex: 1; font-family: 'Syne', sans-serif; font-size: 13px; padding: 10px 14px;
+    background: none; border: 1px solid var(--border); color: var(--text);
+    outline: none; transition: border-color 0.2s ease;
+  }
+  .notify-input:focus { border-color: var(--accent); }
+  .notify-input::placeholder { color: var(--text-dim); }
+  .notify-submit {
+    font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; padding: 10px 22px; background: none; color: var(--text-bright);
+    border: 1px solid var(--border); cursor: pointer; transition: all 0.2s ease;
+  }
+  .notify-submit:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .notify-status { font-size: 12px; color: var(--text-dim); margin-top: 10px; transition: color 0.5s ease; }
+
+  /* ── PRODUCT COMING SOON ── */
+  .pd-coming-soon {
+    font-size: 11px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--text-dim); padding: 10px 0; border-top: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  .pd-notify-text { font-size: 13px; color: var(--text-dim); margin-bottom: 14px; }
+  .pd-sizes { display: flex; gap: 8px; margin-bottom: 14px; }
+
+  /* ── ABOUT ── */
   .about-content { max-width: 680px; }
-  .about-content h2 { font-size: 26px; font-weight: 700; letter-spacing: 4px; color: var(--text-bright); margin-bottom: 30px; text-transform: uppercase; transition: color 0.5s ease; }
+  .about-content h2 { font-size: 24px; font-weight: 700; letter-spacing: 4px; color: var(--text-bright); margin-bottom: 30px; text-transform: uppercase; transition: color 0.5s ease; }
   .about-block { margin-bottom: 28px; }
-  .about-block p { font-size: 15px; font-weight: 400; line-height: 1.9; color: var(--text); transition: color 0.5s ease; }
+  .about-block p { font-size: 14px; font-weight: 500; line-height: 2; color: var(--text); transition: color 0.5s ease; }
   .about-block p.highlight { color: var(--text-bright); font-weight: 500; }
-  .about-block p.dim { color: var(--text-dim); font-size: 14px; }
+  .about-block p.dim { color: var(--text-dim); font-size: 13px; }
+
+  /* ── CONTACT ── */
   .contact-content { max-width: 480px; }
   .contact-block { margin-bottom: 32px; }
-  .contact-label { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; transition: color 0.5s ease; }
-  .contact-value { font-size: 18px; color: var(--text-bright); transition: color 0.5s ease; }
+  .contact-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; transition: color 0.5s ease; }
+  .contact-value { font-size: 16px; font-weight: 600; color: var(--text-bright); transition: color 0.5s ease; }
   .contact-value a { color: var(--text-bright); text-decoration: none; transition: color 0.2s ease; }
   .contact-value a:hover { color: var(--accent); }
+  .contact-value a.btn-outline:hover { color: var(--bg); }
   .contact-socials { display: flex; gap: 24px; }
-  .contact-socials a { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s ease; }
+  .contact-socials a { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s ease; }
   .contact-socials a:hover { color: var(--accent); }
-  .site-footer { padding: 40px 60px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; transition: border-color 0.5s ease; }
-  .site-footer span { font-size: 12px; letter-spacing: 2px; color: var(--text-dim); text-transform: uppercase; transition: color 0.5s ease; }
+  .btn-outline {
+    font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 500;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--text-bright);
+    text-decoration: none; padding: 10px 20px; border: 1px solid var(--text-dim);
+    background: none; transition: all 0.2s ease; display: inline-block;
+  }
+  .btn-outline:hover { background: var(--accent); color: var(--bg) !important; border-color: var(--accent); }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    padding: 40px 60px; border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    position: relative; z-index: 2; transition: border-color 0.5s ease;
+  }
+  .site-footer span { font-size: 11px; letter-spacing: 3px; color: var(--text-dim); text-transform: uppercase; transition: color 0.5s ease; }
   .footer-socials { display: flex; gap: 20px; }
-  .footer-socials a { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s ease; }
+  .footer-socials a { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s ease; }
   .footer-socials a:hover { color: var(--text); }
+
   /* ── RELEASE DETAIL OVERLAY ── */
   .release-overlay {
     position: fixed; inset: 0; z-index: 200; background: var(--bg);
     overflow-y: auto; opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s ease;
   }
   .release-overlay.open { opacity: 1; visibility: visible; }
-  .release-close {
+  .overlay-close {
     position: fixed; top: 32px; right: 32px; z-index: 210;
-    font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 300;
+    font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 300;
     color: var(--text-dim); background: none; border: none; cursor: pointer;
     width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
     transition: color 0.2s ease;
   }
-  .release-close:hover { color: var(--accent); }
+  .overlay-close:hover { color: var(--accent); }
   .release-detail { max-width: 900px; margin: 0 auto; padding: 80px 60px; }
   .rd-header { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-bottom: 60px; align-items: start; }
   .rd-artwork { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
@@ -113,7 +282,7 @@
   .rd-tracklist li { font-size: 14px; color: var(--text); padding: 8px 0; border-bottom: 1px solid var(--border); display: flex; gap: 16px; transition: color 0.5s ease, border-color 0.5s ease; }
   .rd-tracklist li .side { color: var(--text-dim); font-weight: 500; min-width: 28px; transition: color 0.5s ease; }
   .rd-buy-links { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 40px; }
-  .rd-buy-links a { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-bright); text-decoration: none; padding: 10px 20px; border: 1px solid var(--text-dim); transition: all 0.2s ease; }
+  .rd-buy-links a { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-bright); text-decoration: none; padding: 10px 20px; border: 1px solid var(--text-dim); transition: all 0.2s ease; }
   .rd-buy-links a:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
   .rd-section { margin-bottom: 36px; }
   .rd-section-title { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 12px; transition: color 0.5s ease; }
@@ -136,9 +305,7 @@
   }
   [data-theme="dark"] .pd-gallery-images img { background: #222; }
   .pd-gallery-images img.active { opacity: 1; }
-  .pd-dots {
-    display: flex; justify-content: center; gap: 8px; margin-top: 14px;
-  }
+  .pd-dots { display: flex; justify-content: center; gap: 8px; margin-top: 14px; }
   .pd-dots button {
     width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--text-dim);
     background: none; cursor: pointer; padding: 0; transition: background 0.2s ease;
@@ -165,60 +332,98 @@
   }
   .pd-color-swatches button.active { border-color: var(--accent); }
   .pd-buy {
-    display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 500;
+    display: inline-block; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 500;
     letter-spacing: 2px; text-transform: uppercase; color: var(--text-bright); text-decoration: none;
     padding: 14px 28px; border: 1px solid var(--text-dim); transition: all 0.2s ease;
   }
   .pd-buy:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
 
+  /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
+    html { scroll-padding-top: 52px; }
+    .navbar { padding: 0 16px; height: 48px; }
+    .nav-logo { height: 80px; }
+    .nav-links { gap: 14px; }
+    .nav-links a { font-size: 9px; letter-spacing: 2px; }
+    .nav-divider { height: 14px; }
+    .theme-toggle-track { width: 32px; height: 18px; border-radius: 9px; }
+    .theme-toggle-knob { top: 2px; left: 2px; width: 14px; height: 14px; }
+    [data-theme="dark"] .theme-toggle-knob { transform: translateX(14px); }
+    .hero { padding: 32px 24px; padding-bottom: 28vh; }
+    .hero-line { font-size: 12px; }
+    .hero-line.title { font-size: 16px; letter-spacing: 5px; }
+    .hero-line.subtitle { font-size: 9px; letter-spacing: 4px; }
+    .content-section { padding: 70px 24px 50px; }
+    .section-header { margin-bottom: 40px; }
+    .releases-grid { grid-template-columns: 1fr; gap: 30px; }
+    .shop-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; }
+    .shop-filter { gap: 16px; margin-bottom: 28px; }
+    .site-footer { flex-direction: column; gap: 16px; text-align: center; padding: 30px 24px; }
+    .rd-header { grid-template-columns: 1fr; gap: 30px; }
+    .release-detail { padding: 60px 24px; }
+    .rd-artist { font-size: 20px; }
+    .rd-title-name { font-size: 17px; }
+    .about-content h2 { font-size: 20px; }
+    .contact-socials { flex-wrap: wrap; gap: 16px; }
     .pd-header { grid-template-columns: 1fr; gap: 30px; }
     .product-detail { padding: 60px 24px; }
     .pd-name { font-size: 20px; }
   }
 
-  @media (max-width: 768px) {
-    .hero { padding: 32px 24px; padding-bottom: 20vh; }
-    .hero-line.title { font-size: 16px; letter-spacing: 5px; }
-    .hero-line.subtitle { font-size: 9px; letter-spacing: 4px; }
-    .hero-line { font-size: 12px; }
-    .content-section { padding: 50px 24px; }
-    .releases-grid { grid-template-columns: 1fr; gap: 30px; }
-    .shop-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; }
-    .site-footer { flex-direction: column; gap: 16px; text-align: center; }
-    .menu-btn { top: 20px; right: 20px; }
-    .menu-panel { top: 60px; right: 20px; }
-    .rd-header { grid-template-columns: 1fr; gap: 30px; }
-    .release-detail { padding: 60px 24px; }
-    .rd-artist { font-size: 20px; }
-    .rd-title-name { font-size: 17px; }
-    .hero { padding-bottom: 28vh; }
+  @media (max-width: 480px) {
+    .navbar { padding: 0 12px; }
+    .nav-logo { height: 60px; }
+    .nav-links { gap: 10px; }
+    .nav-links a { font-size: 8px; letter-spacing: 1.5px; }
+    .nav-divider { height: 12px; }
+    .theme-toggle-track { width: 28px; height: 16px; border-radius: 8px; }
+    .theme-toggle-knob { top: 2px; left: 2px; width: 12px; height: 12px; }
+    [data-theme="dark"] .theme-toggle-knob { transform: translateX(12px); }
   }
 </style>
 </head>
 <body>
-<div class="site-bg" id="siteBg"></div>
-<button class="menu-btn" id="menuBtn"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
-<div class="menu-panel" id="menuPanel">
-  <a href="#releases">Releases</a><a href="#shop">Shop</a><a href="#about">About</a><a href="#contact">Contact</a>
-  <div class="menu-divider"></div>
-  <button id="themeToggle">Dark Mode</button>
+
+<!-- BACKGROUND VIDEO -->
+<div class="bg-video-wrap">
+  <video autoplay muted loop playsinline poster="img/concrete-light.jpg">
+    <source src="img/concrete-bg.mp4" type="video/mp4">
+  </video>
+  <div class="bg-video-overlay"></div>
 </div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a class="nav-brand" href="#" id="navBrand"><img class="nav-logo" src="img/logo.png" alt="Joga Bonito"></a>
+  <div class="nav-links">
+    <a href="#releases" data-nav>Releases</a>
+    <a href="#shop" data-nav>Shop</a>
+    <a href="#about" data-nav>About</a>
+    <a href="#contact" data-nav>Contact</a>
+    <div class="nav-divider"></div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+      <div class="theme-toggle-track">
+        <div class="theme-toggle-knob"></div>
+      </div>
+    </button>
+  </div>
+</nav>
+
 <section class="hero" id="hero">
   <div class="hero-content">
     <div class="hero-line title" id="h-title"></div>
     <div class="hero-line subtitle" id="h-sub"></div>
-    <div class="hero-line dim" id="h-prompt"></div>
     <div class="hero-line spacer"></div>
     <div class="hero-line" id="h-line1"></div>
     <div class="hero-line" id="h-line2"></div>
   </div>
   <div class="scroll-hint" id="scrollHint"><span></span></div>
 </section>
+
 <section class="content-section" id="releases">
-  <div class="section-header">Releases</div>
+  <div class="section-header fade-in">Releases <span class="section-count">001</span></div>
   <div class="releases-grid">
-    <div class="release-card" data-release="ct">
+    <div class="release-card fade-in" data-release="ct">
       <img src="img/ct-cover.jpg" alt="Continuous Transmission">
       <div class="release-cat">JB-001</div>
       <div class="release-title">Frequency Control & Redliner <span>|</span> Continuous Transmission</div>
@@ -228,19 +433,20 @@
 
 <!-- RELEASE DETAIL OVERLAY -->
 <div class="release-overlay" id="releaseOverlay">
-  <button class="release-close" id="releaseClose">×</button>
+  <button class="overlay-close" id="releaseClose">&times;</button>
   <div class="release-detail" id="releaseDetail"></div>
 </div>
+
 <section class="content-section" id="shop">
-  <div class="section-header">Shop</div>
-  <div class="shop-filter"><a class="active" data-filter="all">Everything</a><a data-filter="tee">T-Shirts</a><a data-filter="cap">Caps</a></div>
+  <div class="section-header fade-in">Shop</div>
+  <div class="shop-filter fade-in"><a class="active" data-filter="all">Everything</a><a data-filter="tee">T-Shirts</a><a data-filter="cap">Caps</a></div>
   <div class="shop-grid">
-    <div class="shop-card" data-type="tee" data-product="tee">
+    <div class="shop-card fade-in" data-type="tee" data-product="tee">
       <img src="img/tee-black.jpg" alt="Joga Bonito Logo Tee">
       <div class="shop-card-title">Joga Bonito Logo Tee</div>
       <div class="shop-card-type">T-Shirt</div>
     </div>
-    <div class="shop-card" data-type="cap" data-product="cap">
+    <div class="shop-card fade-in" data-type="cap" data-product="cap">
       <img src="img/cap-black.jpg" alt="Joga Bonito Cap">
       <div class="shop-card-title">Joga Bonito Cap</div>
       <div class="shop-card-type">Cap</div>
@@ -250,120 +456,186 @@
 
 <!-- PRODUCT DETAIL OVERLAY -->
 <div class="product-overlay" id="productOverlay">
-  <button class="release-close" id="productClose">×</button>
+  <button class="overlay-close" id="productClose">&times;</button>
   <div class="product-detail" id="productDetail"></div>
 </div>
+
 <section class="content-section" id="about">
-  <div class="section-header">About</div>
+  <div class="section-header fade-in">About</div>
   <div class="about-content">
-    <h2>Label Vision</h2>
-    <div class="about-block"><p class="highlight">Joga Bonito was born from refusal.</p></div>
-    <div class="about-block"><p>Refusal to turn music into content. Refusal to optimize emotion. Refusal to smooth sound into background consumption.</p></div>
-    <div class="about-block"><p>We returned to making music without asking why, because not making it was no longer possible.</p></div>
-    <div class="about-block"><p class="dim">No strategy. No positioning. No chasing cycles. Just the need to create — carefully, emotionally, intentionally. To create beautifully, for its own sake.</p></div>
-    <div class="about-block"><p>The name came as a joke after finishing a track. Then we realized we were back — not for relevance, not for validation, but for the physical need to make sound again. For its beauty.</p></div>
-    <div class="about-block"><p>Electronic music has always been emotional ground for all of us. Over time, we watched it become safer. Cleaner. Repetitive. Joga Bonito exists to move away from that.</p></div>
-    <div class="about-block"><p>We work in the tension between technological evolution and shared memory. Between new tools and emotional residue. Where memory is distorted, not preserved.</p></div>
-    <div class="about-block"><p class="dim">We don't resolve that tension. We let it shape the music.</p></div>
-    <div class="about-block"><p>We don't fix history. We don't predict the future. We let both mutate in the present.</p></div>
-    <div class="about-block"><p class="dim">No purity. No perfection. No clean narratives.</p></div>
-    <div class="about-block"><p>Release what feels true. Let people project themselves into it. Let it become something else.</p></div>
-    <div class="about-block"><p class="highlight">Only sound that still feels dangerous to make.</p></div>
-    <div class="about-block"><p class="dim">If it feels too clean, it's probably dead. If it feels unresolved, we're interested.</p></div>
+    <h2 class="fade-in">Label Vision</h2>
+    <div class="about-block fade-in"><p>Joga Bonito takes its name from a Brazilian expression — a way of speaking about beauty in motion. It describes the moments when the game flows freely, when skill, intuition, and joy align. Thought falls away. What remains is rhythm, instinct, and the feeling of being exactly where you need to be. Technique matters, but soul matters more.</p></div>
+    <div class="about-block fade-in"><p class="highlight">The label carries that spirit.</p></div>
+    <div class="about-block fade-in"><p>Joga Bonito is a space for music born from instinct, not calculation. Sound emerges through curiosity, tension, and emotion, unshaped by polish or perfection. What matters is the movement within it: the human impulse that drives creation before it can be named or explained.</p></div>
+    <div class="about-block fade-in"><p>Technology shifts, memory warps, and the present is never still. The label lives in that liminal space, where fragments of the past collide with new tools, and forms yet unimagined begin to take shape.</p></div>
+    <div class="about-block fade-in"><p>Like the most fleeting, beautiful moments in any craft, it's never about control or efficiency. It's about movement, intuition, and the quiet electricity that appears when expression becomes effortless.</p></div>
+    <div class="about-block fade-in"><p>What emerges may be raw, unresolved, or unfinished — but it carries the same thing the phrase always pointed to: the beauty that exists when people create purely out of love of the game.</p></div>
+    <div class="about-block fade-in"><p class="highlight">And here, the game is making music that feels alive.</p></div>
   </div>
 </section>
+
 <section class="content-section" id="contact">
-  <div class="section-header">Contact</div>
+  <div class="section-header fade-in">Contact</div>
   <div class="contact-content">
-    <div class="contact-block"><div class="contact-label">Label</div><div class="contact-value"><a href="mailto:info@jogabonitorecords.com">info@jogabonitorecords.com</a></div></div>
-    <div class="contact-block"><div class="contact-label">Follow</div><div class="contact-socials"><a href="https://jogabonito.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a><a href="https://soundcloud.com/jogabonitorecords" target="_blank" rel="noopener">SoundCloud</a><a href="https://www.instagram.com/jogabonitorecords" target="_blank" rel="noopener">Instagram</a></div></div>
-    <div class="contact-block"><div class="contact-label">Demos</div><div class="contact-value"><p style="font-size:12px;color:var(--text-dim);line-height:1.8;">We are not accepting unsolicited demos at this time.</p></div></div>
+    <div class="contact-block fade-in"><div class="contact-label">Label</div><div class="contact-value"><a href="mailto:info@jogabonitorecords.com">info@jogabonitorecords.com</a></div></div>
+    <div class="contact-block fade-in"><div class="contact-label">Follow</div><div class="contact-socials"><a href="https://jogabonito.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a><a href="https://soundcloud.com/jogabonitorecords" target="_blank" rel="noopener">SoundCloud</a><a href="https://www.instagram.com/jogabonitorecords" target="_blank" rel="noopener">Instagram</a></div></div>
+    <div class="contact-block fade-in">
+      <div class="contact-label">Newsletter</div>
+      <div class="contact-value">
+        <p style="font-size:13px;color:var(--text);line-height:1.8;margin-bottom:12px;">Releases, merch drops, and nothing else.</p>
+        <a href="mailto:info@jogabonitorecords.com?subject=Newsletter%20Signup&body=Add%20me%20to%20the%20Joga%20Bonito%20mailing%20list." class="btn-outline">Subscribe</a>
+      </div>
+    </div>
+    <div class="contact-block fade-in"><div class="contact-label">Demos</div><div class="contact-value"><p style="font-size:12px;color:var(--text-dim);line-height:1.8;">We are not accepting unsolicited demos at this time.</p></div></div>
   </div>
 </section>
+
+<!-- IMPRESSUM -->
+<section class="content-section" id="impressum">
+  <div class="section-header fade-in">Impressum</div>
+  <div class="contact-content fade-in">
+    <div class="about-block"><p style="font-size:13px;color:var(--text-dim);line-height:1.9;">
+      Joga Bonito Records<br>
+      K.S<br>
+      Berlin, Germany<br><br>
+      Contact: info@jogabonitorecords.com<br><br>
+      Responsible for content according to &sect; 55 Abs. 2 RStV:<br>
+      K.S
+    </p></div>
+  </div>
+</section>
+
 <footer class="site-footer">
   <span>Joga Bonito Records</span>
-  <div class="footer-socials"><a href="https://jogabonito.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a><a href="https://soundcloud.com/jogabonitorecords" target="_blank" rel="noopener">SoundCloud</a><a href="https://www.instagram.com/jogabonitorecords" target="_blank" rel="noopener">Instagram</a></div>
+  <div class="footer-socials"><a href="#impressum">Impressum</a><a href="https://jogabonito.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a><a href="https://soundcloud.com/jogabonitorecords" target="_blank" rel="noopener">SoundCloud</a><a href="https://www.instagram.com/jogabonitorecords" target="_blank" rel="noopener">Instagram</a></div>
 </footer>
+
 <script>
-const sequence = [
-  { id: 'h-title', text: 'JOGA BONITO', delay: 400, speed: 80 },
-  { id: 'h-sub', text: 'RECORDS', delay: 150, speed: 70 },
-  { id: 'h-prompt', text: '> _', delay: 400, speed: 30 },
-  { id: 'h-line1', text: 'the best moves were invented on concrete.', delay: 300, speed: 26 },
-  { id: 'h-line2', text: 'before anyone was watching.', delay: 400, speed: 26, showCursor: true },
-];
+// ── HERO SEQUENCE ──
 async function typeText(el, text, speed) {
   el.classList.add('visible');
-  if (!text) return;
-  for (let i = 0; i < text.length; i++) { el.textContent += text[i]; await new Promise(r => setTimeout(r, speed + Math.random() * 18)); }
-}
-async function runSequence() {
-  for (const item of sequence) {
-    const el = document.getElementById(item.id);
-    await new Promise(r => setTimeout(r, item.delay));
-    await typeText(el, item.text, item.speed);
-    if (item.showCursor) { const c = document.createElement('span'); c.className = 'cursor'; el.appendChild(c); }
+  for (let i = 0; i < text.length; i++) {
+    el.textContent += text[i];
+    await new Promise(r => setTimeout(r, speed + Math.random() * 18));
   }
+}
+
+async function runSequence() {
+  await new Promise(r => setTimeout(r, 400));
+  await typeText(document.getElementById('h-title'), 'JOGA BONITO', 80);
+  await new Promise(r => setTimeout(r, 150));
+  await typeText(document.getElementById('h-sub'), 'RECORDS', 70);
+  await new Promise(r => setTimeout(r, 500));
+  await typeText(document.getElementById('h-line1'), 'the best moves were invented on concrete.', 26);
+  await new Promise(r => setTimeout(r, 400));
+  const line2 = document.getElementById('h-line2');
+  await typeText(line2, 'before anyone was watching.', 26);
+  const c = document.createElement('span');
+  c.className = 'cursor';
+  line2.appendChild(c);
   await new Promise(r => setTimeout(r, 300));
-  document.getElementById('menuBtn').classList.add('visible');
   document.getElementById('scrollHint').classList.add('visible');
 }
 runSequence();
 
-// Theme toggle
-const siteBg = document.getElementById('siteBg');
-const themeToggle = document.getElementById('themeToggle');
-let currentTheme = 'light';
-themeToggle.addEventListener('click', () => {
+// ── THEME ──
+let currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+document.documentElement.setAttribute('data-theme', currentTheme);
+
+document.getElementById('themeToggle').addEventListener('click', () => {
   currentTheme = currentTheme === 'light' ? 'dark' : 'light';
   document.documentElement.setAttribute('data-theme', currentTheme);
-  themeToggle.textContent = currentTheme === 'light' ? 'Dark Mode' : 'Light Mode';
-  siteBg.style.backgroundImage = currentTheme === 'light' ? "url('img/concrete-light.jpg')" : "url('img/concrete-dark.jpg')";
 });
 
-// Menu
-const menuBtn = document.getElementById('menuBtn');
-const menuPanel = document.getElementById('menuPanel');
-let menuOpen = false;
-menuBtn.addEventListener('click', () => { menuOpen = !menuOpen; menuPanel.classList.toggle('open', menuOpen); menuBtn.classList.toggle('open', menuOpen); });
-document.addEventListener('click', (e) => { if (menuOpen && !menuBtn.contains(e.target) && !menuPanel.contains(e.target)) { menuOpen = false; menuPanel.classList.remove('open'); menuBtn.classList.remove('open'); } });
-menuPanel.querySelectorAll('a').forEach(l => { l.addEventListener('click', () => { menuOpen = false; menuPanel.classList.remove('open'); menuBtn.classList.remove('open'); }); });
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+  currentTheme = e.matches ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', currentTheme);
+});
 
-// Release data
+// ── SCROLL: FADE-IN ──
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+
+// ── SCROLL: ACTIVE NAV LINK ──
+const sections = ['releases', 'shop', 'about', 'contact'];
+const navLinks = document.querySelectorAll('[data-nav]');
+const navHeight = 80;
+
+function updateActiveNav() {
+  const scrollY = window.scrollY + navHeight + 10;
+  let current = '';
+  for (const id of sections) {
+    const section = document.getElementById(id);
+    if (section && section.offsetTop <= scrollY) {
+      current = id;
+    }
+  }
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href').substring(1);
+    link.classList.toggle('active', href === current);
+  });
+}
+
+window.addEventListener('scroll', updateActiveNav, { passive: true });
+updateActiveNav();
+
+// ── NAV SMOOTH SCROLL ──
+document.getElementById('navBrand').addEventListener('click', (e) => {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  history.replaceState(null, '', ' ');
+});
+
+document.querySelectorAll('[data-nav]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = link.getAttribute('href').substring(1);
+    const el = document.getElementById(target);
+    const top = el.getBoundingClientRect().top + window.scrollY - 60;
+    window.scrollTo({ top, behavior: 'smooth' });
+    history.replaceState(null, '', ' ');
+  });
+});
+
+// ── START AT TOP ──
+window.addEventListener('load', () => {
+  if (window.location.hash) history.replaceState(null, '', ' ');
+  window.scrollTo(0, 0);
+});
+
+// ── RELEASE DATA ──
 const releases = {
   ct: {
-    artwork: 'img/ct-cover.jpg',
-    cat: 'JB-001',
-    artist: 'Frequency Control & Redliner',
-    title: 'Continuous Transmission',
-    format: '3-Track Vinyl EP',
+    artwork: 'img/ct-cover.jpg', cat: 'JB-001',
+    artist: 'Frequency Control & Redliner', title: 'Continuous Transmission',
+    format: '3-Track Digital EP',
     tracks: [
-      { side: 'A1', name: 'Continuous Transmission' },
-      { side: 'A2', name: 'Body Protocol' },
-      { side: 'B1', name: 'Air Resistance' },
+      { side: 'A1', name: 'Elyes' },
+      { side: 'A2', name: 'Marais Pulse' },
+      { side: 'B1', name: 'Golden Signal' },
     ],
-    description: 'The debut release on Joga Bonito Records. Continuous Transmission is a three-track vinyl EP that fuses techno with housy vocals, tribal percussion, and relentless 140 BPM energy. Born from late-night sessions and an obsessive attention to sound design, this EP captures the raw intensity of the dancefloor.',
+    description: "In the early 2010s, producers Redliner and Frequency Control discovered underground electronic music from a distance. Two teenagers back then, with local nightlife largely inaccessible, their main sources were recorded DJ sets, scattered internet posts, articles, and interviews. The music arrived fragmented, raw, fast, and emotionally charged. Its rough edges shaped how they heard everything after. Over time, the scene began to open, slowly creating space for those who had only followed it from afar.<br><br>Continuous Transmission inhabits that moment of change. Across three connected tracks, distortion, speed, and house-driven techno rhythms move like a single flow. Elyes is the shape sound takes when it tries to hold what isn't there anymore. Marais Pulse drifts through streets that knew us at our loudest and our most lost. Golden Signal is the last light before the line cuts — still warm, still reaching. The transmission is continuous because some things refuse to end.",
     credits: [
       'Composed, Produced & Mixed by Frequency Control & Redliner',
-      'Mastered by Noimi.Lab',
-      'Words by Track.Advisor',
-      'Promotion by Di.Emme',
-      'Artwork by Joga Bonito',
+      'Mastered by Noiem.Lab', 'Words by Track.Advisor',
+      'Promotion by Di__emme', 'Artwork by K.S',
     ],
-    buyLinks: [
-      { label: 'Bandcamp', url: 'https://jogabonito.bandcamp.com' },
-    ]
+    buyLinks: [{ label: 'Bandcamp', url: 'https://jogabonito.bandcamp.com' }]
   }
 };
 
-// Open release detail
 document.querySelectorAll('.release-card[data-release]').forEach(card => {
   card.addEventListener('click', () => {
-    const id = card.dataset.release;
-    const r = releases[id];
+    const r = releases[card.dataset.release];
     if (!r) return;
-
-    const html = `
+    document.getElementById('releaseDetail').innerHTML = `
       <div class="rd-header">
         <img class="rd-artwork" src="${r.artwork}" alt="${r.title}">
         <div class="rd-info">
@@ -385,27 +657,22 @@ document.querySelectorAll('.release-card[data-release]').forEach(card => {
       <div class="rd-section">
         <div class="rd-section-title">Credits</div>
         <div class="rd-credits">${r.credits.join('<br>')}</div>
-      </div>
-    `;
-
-    document.getElementById('releaseDetail').innerHTML = html;
+      </div>`;
     document.getElementById('releaseOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
   });
 });
 
-// Close release detail
 document.getElementById('releaseClose').addEventListener('click', () => {
   document.getElementById('releaseOverlay').classList.remove('open');
   document.body.style.overflow = '';
 });
 
-// Product data
+// ── PRODUCT DATA ──
 const products = {
   tee: {
-    name: 'Joga Bonito Logo Tee',
-    type: 'T-Shirt',
-    description: 'Heavyweight oversized tee with embroidered Joga Bonito logo on the chest. Available in black and white. 100% organic cotton.',
+    name: 'Joga Bonito Logo Tee', type: 'T-Shirt',
+    description: 'Heavyweight oversized tee with printed Joga Bonito logo on the chest. Available in black and white. 100% organic cotton.',
     colors: [
       { name: 'Black', hex: '#111', image: 'img/tee-black.jpg' },
       { name: 'White', hex: '#f5f5f5', image: 'img/tee-white.jpg' },
@@ -413,12 +680,9 @@ const products = {
     buyUrl: 'https://jogabonito.bandcamp.com/merch'
   },
   cap: {
-    name: 'Joga Bonito Cap',
-    type: 'Cap',
+    name: 'Joga Bonito Cap', type: 'Cap',
     description: 'Unstructured 6-panel dad cap with embroidered Joga Bonito logo. Adjustable strap. One size fits all.',
-    colors: [
-      { name: 'Black', hex: '#111', image: 'img/cap-black.jpg' },
-    ],
+    colors: [{ name: 'Black', hex: '#111', image: 'img/cap-black.jpg' }],
     buyUrl: 'https://jogabonito.bandcamp.com/merch'
   }
 };
@@ -439,35 +703,63 @@ function openProduct(id) {
   </div>` : '';
 
   const arrowsHtml = p.colors.length > 1 ? `<div class="pd-arrows">
-    <button id="pdPrev">&#8249;</button>
-    <button id="pdNext">&#8250;</button>
+    <button id="pdPrev">&#8249;</button><button id="pdNext">&#8250;</button>
   </div>` : '';
 
   const swatchesHtml = p.colors.length > 1 ? `
     <div class="pd-colors-label">Color</div>
     <div class="pd-color-swatches">
       ${p.colors.map((c, i) => `<button style="background:${c.hex}" data-idx="${i}" class="${i === 0 ? 'active' : ''}" title="${c.name}"></button>`).join('')}
-    </div>
-  ` : '';
+    </div>` : '';
 
   document.getElementById('productDetail').innerHTML = `
     <div class="pd-header">
       <div class="pd-gallery">
         <div class="pd-gallery-images" id="pdImages">${imagesHtml}</div>
-        ${arrowsHtml}
-        ${dotsHtml}
+        ${arrowsHtml}${dotsHtml}
       </div>
       <div class="pd-info">
         <div class="pd-type">${p.type}</div>
         <div class="pd-name">${p.name}</div>
         <div class="pd-desc">${p.description}</div>
         ${swatchesHtml}
-        <a href="${p.buyUrl}" target="_blank" rel="noopener" class="pd-buy">Buy on Bandcamp</a>
+        <div class="pd-coming-soon">Coming Soon</div>
+        <div class="pd-notify">
+          <p class="pd-notify-text">Get notified when this drops. Choose your size.</p>
+          <div class="pd-sizes">
+            ${p.type === 'Cap' ? '' : '<button class="size-btn" data-size="S">S</button><button class="size-btn" data-size="M">M</button><button class="size-btn" data-size="L">L</button><button class="size-btn" data-size="XL">XL</button><button class="size-btn" data-size="XXL">XXL</button>'}
+          </div>
+          <div class="notify-email-row">
+            <input type="email" id="pdNotifyEmail" placeholder="your@email.com" class="notify-input">
+            <button id="pdNotifyBtn" class="notify-submit">Notify Me</button>
+          </div>
+          <p class="notify-status" id="pdNotifyStatus"></p>
+        </div>
       </div>
-    </div>
-  `;
+    </div>`;
 
-  // Wire up color switching
+  // Wire up size selection
+  let pdSelectedSize = '';
+  document.querySelectorAll('.pd-sizes .size-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.pd-sizes .size-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      pdSelectedSize = btn.dataset.size;
+    });
+  });
+
+  // Wire up notify
+  document.getElementById('pdNotifyBtn').addEventListener('click', () => {
+    const email = document.getElementById('pdNotifyEmail').value;
+    const status = document.getElementById('pdNotifyStatus');
+    if (!email || !email.includes('@')) { status.textContent = 'Please enter a valid email.'; return; }
+    if (p.type !== 'Cap' && !pdSelectedSize) { status.textContent = 'Please select your size.'; return; }
+    const sizeInfo = p.type === 'Cap' ? 'One Size' : pdSelectedSize;
+    window.location.href = 'mailto:info@jogabonitorecords.com?subject=Merch%20Notify%20-%20' + encodeURIComponent(p.name) + '%20-%20' + sizeInfo + '&body=Email:%20' + encodeURIComponent(email) + '%0AProduct:%20' + encodeURIComponent(p.name) + '%0ASize:%20' + sizeInfo + '%0A%0APlease%20notify%20me%20when%20this%20drops.';
+    status.textContent = "Thanks! We'll notify you when it drops.";
+    document.getElementById('pdNotifyEmail').value = '';
+  });
+
   if (p.colors.length > 1) {
     const switchTo = (idx) => {
       currentColorIndex = idx;
@@ -480,13 +772,10 @@ function openProduct(id) {
       if (dot) dot.classList.add('active');
       if (swatch) swatch.classList.add('active');
     };
-
-    document.querySelectorAll('.pd-dots button').forEach(btn => {
-      btn.addEventListener('click', () => switchTo(parseInt(btn.dataset.idx)));
-    });
-    document.querySelectorAll('.pd-color-swatches button').forEach(btn => {
-      btn.addEventListener('click', () => switchTo(parseInt(btn.dataset.idx)));
-    });
+    document.querySelectorAll('.pd-dots button').forEach(btn =>
+      btn.addEventListener('click', () => switchTo(parseInt(btn.dataset.idx))));
+    document.querySelectorAll('.pd-color-swatches button').forEach(btn =>
+      btn.addEventListener('click', () => switchTo(parseInt(btn.dataset.idx))));
     const prev = document.getElementById('pdPrev');
     const next = document.getElementById('pdNext');
     if (prev) prev.addEventListener('click', () => switchTo((currentColorIndex - 1 + p.colors.length) % p.colors.length));
@@ -497,22 +786,23 @@ function openProduct(id) {
   document.body.style.overflow = 'hidden';
 }
 
-document.querySelectorAll('.shop-card[data-product]').forEach(card => {
-  card.addEventListener('click', () => openProduct(card.dataset.product));
-});
+document.querySelectorAll('.shop-card[data-product]').forEach(card =>
+  card.addEventListener('click', () => openProduct(card.dataset.product)));
 
 document.getElementById('productClose').addEventListener('click', () => {
   document.getElementById('productOverlay').classList.remove('open');
   document.body.style.overflow = '';
 });
 
-// Shop filter
+// ── SHOP FILTER ──
 document.querySelectorAll('.shop-filter a').forEach(link => {
   link.addEventListener('click', () => {
     const f = link.dataset.filter;
     document.querySelectorAll('.shop-filter a').forEach(l => l.classList.remove('active'));
     link.classList.add('active');
-    document.querySelectorAll('.shop-card').forEach(c => { c.style.display = (f === 'all' || c.dataset.type === f) ? 'block' : 'none'; });
+    document.querySelectorAll('.shop-card').forEach(c => {
+      c.style.display = (f === 'all' || c.dataset.type === f) ? 'block' : 'none';
+    });
   });
 });
 </script>

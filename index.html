@@ -615,7 +615,7 @@ const releases = {
   ct: {
     artwork: 'img/ct-cover.jpg', cat: 'JB-001',
     artist: 'Frequency Control & Redliner', title: 'Continuous Transmission',
-    format: '3-Track Digital EP',
+    format: '3-Track Digital EP', releaseDate: 'March 27, 2026',
     tracks: [
       { side: 'A1', name: 'Elyes' },
       { side: 'A2', name: 'Marais Pulse' },
@@ -624,8 +624,10 @@ const releases = {
     description: "In the early 2010s, producers Redliner and Frequency Control discovered underground electronic music from a distance. Two teenagers back then, with local nightlife largely inaccessible, their main sources were recorded DJ sets, scattered internet posts, articles, and interviews. The music arrived fragmented, raw, fast, and emotionally charged. Its rough edges shaped how they heard everything after. Over time, the scene began to open, slowly creating space for those who had only followed it from afar.<br><br>Continuous Transmission inhabits that moment of change. Across three connected tracks, distortion, speed, and house-driven techno rhythms move like a single flow. Elyes is the shape sound takes when it tries to hold what isn't there anymore. Marais Pulse drifts through streets that knew us at our loudest and our most lost. Golden Signal is the last light before the line cuts — still warm, still reaching. The transmission is continuous because some things refuse to end.",
     credits: [
       'Composed, Produced & Mixed by Frequency Control & Redliner',
-      'Mastered by Noiem.Lab', 'Words by Track.Advisor',
-      'Promotion by Di__emme', 'Artwork by K.S',
+      'Mastered by Noiem.Lab',
+      'Artwork by K.S',
+      '℗ 27.03.2026 Joga Bonito Records',
+      'jogabonitorecords.com',
     ],
     buyLinks: [{ label: 'Bandcamp', url: 'https://jogabonito.bandcamp.com' }]
   }
@@ -639,7 +641,7 @@ document.querySelectorAll('.release-card[data-release]').forEach(card => {
       <div class="rd-header">
         <img class="rd-artwork" src="${r.artwork}" alt="${r.title}">
         <div class="rd-info">
-          <div class="rd-cat">${r.cat} · ${r.format}</div>
+          <div class="rd-cat">${r.cat} · ${r.format} · Released ${r.releaseDate}</div>
           <div class="rd-artist">${r.artist}</div>
           <div class="rd-title-name">${r.title}</div>
           <ul class="rd-tracklist">
